@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERN Engineering Blog</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary: #005f9e;
+            --primary-dark: #004a7c;
+            --secondary: #ff6b00;
+            --secondary-light: #ff8c33;
+            --dark: #222;
+            --dark-gray: #444;
+            --medium-gray: #6c757d;
+            --light-gray: #e9ecef;
+            --light: #f8f9fa;
+            --white: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .section-padding {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--secondary);
+        }
+
+        .section-title p {
+            color: var(--medium-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Blog Section Styles */
+        .blog-section {
+            background: var(--white);
+            position: relative;
+        }
+
+        .blog-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 2rem;
+        }
+
+        .blog-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-card:hover .blog-image img {
+            transform: scale(1.05);
+        }
+
+        .blog-content {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-date {
+            display: inline-block;
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        .blog-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            line-height: 1.3;
+        }
+
+        .blog-excerpt {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .blog-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .blog-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .blog-link:hover {
+            color: var(--secondary);
+        }
+
+        .blog-link:hover i {
+            transform: translateX(5px);
+        }
+
+        .blog-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .blog-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(0, 95, 158, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .view-all-blogs {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Blog Filters */
+        .blog-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: var(--light);
+            color: var(--dark-gray);
+            border: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .blog-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .blog-image {
+                height: 250px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Blog Section -->
+    <section class="blog-section section-padding" id="blog">
+        <div class="container">
+            <div class="section-title">
+                <h2>Latest Blog Posts</h2>
+                <p>Insights and updates from our engineering team</p>
+            </div>
+            
+            <div class="blog-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="Technology">Technology</button>
+                <button class="filter-btn" data-filter="Engineering">Engineering</button>
+                <button class="filter-btn" data-filter="Silos">Silos</button>
+                <button class="filter-btn" data-filter="Innovation">Innovation</button>
+            </div>
+            
+            <div class="blog-container">
+                <!-- Blog cards will be inserted here by JavaScript -->
+            </div>
+            
+            <div class="view-all-blogs">
+                <a href="#" class="btn">View All Blog Posts</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Blog Data
+        const blogPosts = [
+            {
+                id: 1,
+                title: "The Future of Industrial Automation in Ethiopia",
+                excerpt: "Exploring how automation technologies are transforming Ethiopia's manufacturing sector and what it means for local industries.",
+                date: "June 15, 2023",
+                image: "https://images.unsplash.com/photo-1581093057305-25a0a5b9a8a1",
+                tags: ["Technology", "Automation", "Innovation"],
+                link: "#"
+            },
+            {
+                id: 2,
+                title: "Modern Grain Storage Solutions for Ethiopian Agriculture",
+                excerpt: "How advanced silo technology is helping Ethiopian farmers reduce post-harvest losses and improve food security.",
+                date: "May 28, 2023",
+                image: "https://images.unsplash.com/photo-1581094794320-8d1e26a9ab2a",
+                tags: ["Silos", "Agriculture", "Engineering"],
+                link: "#"
+            },
+            {
+                id: 3,
+                title: "Integrating Renewable Energy in Industrial Processes",
+                excerpt: "Case studies on how Ethiopian manufacturers are adopting solar and other renewable energy solutions.",
+                date: "April 12, 2023",
+                image: "https://images.unsplash.com/photo-1581094271901-8022df4466f9",
+                tags: ["Technology", "Energy", "Innovation"],
+                link: "#"
+            },
+            {
+                id: 4,
+                title: "Bridging the Skills Gap in Ethiopian Engineering",
+                excerpt: "Our perspective on developing local engineering talent and the importance of vocational training programs.",
+                date: "March 5, 2023",
+                image: "https://images.unsplash.com/photo-1581093057305-25a0a5b9a8a1",
+                tags: ["Engineering", "Education"],
+                link: "#"
+            },
+            {
+                id: 5,
+                title: "Advanced Welding Techniques for Industrial Applications",
+                excerpt: "Exploring modern welding methods that are revolutionizing fabrication in Ethiopian industries.",
+                date: "February 18, 2023",
+                image: "https://images.unsplash.com/photo-1581094487235-9ae5f1489c08",
+                tags: ["Engineering", "Technology"],
+                link: "#"
+            },
+            {
+                id: 6,
+                title: "Sustainable Materials in Construction",
+                excerpt: "How Ethiopian engineers are incorporating eco-friendly materials in large-scale projects.",
+                date: "January 22, 2023",
+                image: "https://images.unsplash.com/photo-1581094487235-9ae5f1489c08",
+                tags: ["Engineering", "Innovation"],
+                link: "#"
+            }
+        ];
+
+        // Initialize Blog
+        document.addEventListener('DOMContentLoaded', function() {
+            const blogContainer = document.querySelector('.blog-container');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            // Render blog posts
+            function renderBlogPosts(posts) {
+                blogContainer.innerHTML = '';
+                
+                if (posts.length === 0) {
+                    blogContainer.innerHTML = `
+                        <div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+                            <h3>No blog posts found</h3>
+                            <p>Try a different filter</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                posts.forEach(post => {
+                    const blogCard = document.createElement('div');
+                    blogCard.className = 'blog-card';
+                    blogCard.innerHTML = `
+                        <div class="blog-image">
+                            <img src="${post.image}" alt="${post.title}">
+                        </div>
+                        <div class="blog-content">
+                            <span class="blog-date">${post.date}</span>
+                            <h3 class="blog-title">${post.title}</h3>
+                            <p class="blog-excerpt">${post.excerpt}</p>
+                            <div class="blog-tags">
+                                ${post.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
+                            </div>
+                            <a href="${post.link}" class="blog-link">
+                                Read More <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    `;
+                    blogContainer.appendChild(blogCard);
+                });
+            }
+            
+            // Filter blog posts
+            function filterBlogs(filter) {
+                if (filter === 'all') {
+                    renderBlogPosts(blogPosts);
+                } else {
+                    const filteredPosts = blogPosts.filter(post => 
+                        post.tags.includes(filter)
+                    );
+                    renderBlogPosts(filteredPosts);
+                }
+            }
+            
+            // Set up filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    filterBlogs(filter);
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Initial render
+            renderBlogPosts(blogPosts);
+            
+            // Optional: Add blog search functionality
+            // You can add a search input and filter by title/excerpt/tags
+        });
+    </script>
+</body>
+</html>

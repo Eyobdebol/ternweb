@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saudistar Agricultural Development | TERN Engineering</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Same CSS as above */
+        :root {
+            --primary: #005f9e;
+            --primary-light: #0077cc;
+            --secondary: #ff6b00;
+            --light: #f8f9fa;
+            --dark: #222;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --white: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+        
+        .project-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .project-category {
+            display: inline-block;
+            padding: 5px 15px;
+            background: var(--secondary);
+            color: var(--white);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+        
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .project-gallery img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .project-gallery img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .project-details {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .project-details h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .project-details h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .project-details h3 {
+            color: var(--primary);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .project-details ul {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .project-details li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .project-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 25px;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .back-btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        @media (max-width: 768px) {
+            .project-header {
+                padding: 1.5rem 0;
+            }
+            
+            .project-details {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-container">
+        <div class="project-header">
+            <h1>Saudistar Agricultural Development</h1>
+            <p class="project-category">Silo Installation</p>
+        </div>
+        
+        <div class="project-gallery">
+            <img src="https://images.unsplash.com/photo-1581094271901-8022df4466f9" alt="Silo Installation">
+            <img src="https://images.unsplash.com/photo-1581094794320-8d1e26a9ab2a" alt="Conveyor System">
+            <img src="https://images.unsplash.com/photo-1581093057305-25a0a5b9a8a1" alt="Completed Project">
+        </div>
+        
+        <div class="project-details">
+            <h2>Project Overview</h2>
+            <p>Complete grain storage system installation for Saudistar Agricultural Development, including civil works and conveyor systems.</p>
+            
+            <div class="project-stats">
+                <div class="stat-item">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Silos Installed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">5,000</div>
+                    <div class="stat-label">Tons Capacity</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">120m</div>
+                    <div class="stat-label">Conveyor Length</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Weeks Duration</div>
+                </div>
+            </div>
+            
+            <h3>Key Features</h3>
+            <ul>
+                <li>Automated filling and emptying systems</li>
+                <li>Integrated weighing and moisture control</li>
+                <li>Dust suppression technology</li>
+                <li>Remote monitoring capabilities</li>
+            </ul>
+        </div>
+        
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Projects
+        </a>
+    </div>
+</body>
+</html>
