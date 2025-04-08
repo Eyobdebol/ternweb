@@ -1714,54 +1714,7 @@
                 }
             });
         });
-        
-        
-        // Initialize slider
-        function updateBlogSlider() {
-            blogSlider.style.transform = `translateX(-${currentBlogSlide * 100}%)`;
-            
-            // Update dots
-            blogDots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentBlogSlide);
-            });
-        }
-        
-        // Next slide
-        function nextBlogSlide() {
-            currentBlogSlide = (currentBlogSlide + 1) % blogSlideCount;
-            updateBlogSlider();
-        }
-        
-        // Previous slide
-        function prevBlogSlide() {
-            currentBlogSlide = (currentBlogSlide - 1 + blogSlideCount) % blogSlideCount;
-            updateBlogSlider();
-        }
-        
-        // Arrow click events
-        nextArrow.addEventListener('click', nextBlogSlide);
-        prevArrow.addEventListener('click', prevBlogSlide);
-        
-        // Dot click events
-        blogDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentBlogSlide = index;
-                updateBlogSlider();
-            });
-        });
-        
-        // Auto slide change every 5 seconds
-        setInterval(nextBlogSlide, 5000);
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') {
-                nextBlogSlide();
-            } else if (e.key === 'ArrowLeft') {
-                prevBlogSlide();
-            }
-        });
-
+    
         // Project Slider Functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize all project sliders
@@ -1773,6 +1726,7 @@
                 const dots = slider.querySelectorAll('.project-slider-dot');
                 let currentSlide = 0;
                 const slideCount = slideItems.length;
+                let slideInterval;
                 
                 // Function to update slider position
                 function updateSlider() {
@@ -1789,14 +1743,34 @@
                     dot.addEventListener('click', () => {
                         currentSlide = index;
                         updateSlider();
+                        resetInterval();
                     });
                 });
                 
                 // Auto slide change every 5 seconds
-                setInterval(() => {
-                    currentSlide = (currentSlide + 1) % slideCount;
-                    updateSlider();
-                }, 5000);
+                function startInterval() {
+                    slideInterval = setInterval(() => {
+                        currentSlide = (currentSlide + 1) % slideCount;
+                        updateSlider();
+                    }, 5000);
+                }
+                
+                function resetInterval() {
+                    clearInterval(slideInterval);
+                    startInterval();
+                }
+                
+                // Start the initial interval
+                startInterval();
+                
+                // Pause on hover
+                slider.addEventListener('mouseenter', () => {
+                    clearInterval(slideInterval);
+                });
+                
+                slider.addEventListener('mouseleave', () => {
+                    startInterval();
+                });
             });
             
             // Project category filtering
