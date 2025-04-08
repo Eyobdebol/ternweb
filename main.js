@@ -1,142 +1,147 @@
-// Project Slider Functionality
-function initProjectSliders() {
-    document.querySelectorAll('.project-slider').forEach(slider => {
-        const slides = slider.querySelector('.project-slides');
-        const dots = slider.querySelectorAll('.slider-dot');
-        let currentSlide = 0;
-        let slideInterval;
+<script>
+    // Mobile Menu Toggle
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+<AbortControllermobileMenuToggle.addEventListener('click', () = > {
+        navLinks.classList.toggle('active');
+        mobileMenuToggle.innerHTML = navLinks.classList.contains('active') ? 
+            '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+    });
+    
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Project Slider Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize all project sliders
+        const projectSliders = document.querySelectorAll('.project-slider-container');
         
-        function updateSlider() {
-            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+        projectSliders.forEach(slider => {
+            const slides = slider.querySelector('.project-slides');
+            const slideItems = slider.querySelectorAll('.project-slide');
+            const dots = slider.querySelectorAll('.project-slider-dot');
+            let currentSlide = 0;
+            const slideCount = slideItems.length;
+            let slideInterval;
+            
+            // Function to update slider position
+            function updateSlider() {
+                slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Update dots
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+            
+            // Dot click events
             dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
+                dot.addEventListener('click', () => {
+                    currentSlide = index;
+                    updateSlider();
+                    resetInterval();
+                });
             });
-        }
-        
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % dots.length;
-            updateSlider();
-        }
-        
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentSlide = index;
-                updateSlider();
-                resetTimer();
-            });
-        });
-        
-        function startTimer() {
-            slideInterval = setInterval(nextSlide, 5000);
-        }
-        
-        function resetTimer() {
-            clearInterval(slideInterval);
-            startTimer();
-        }
-        
-        updateSlider();
-        startTimer();
-        
-        slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
-        slider.addEventListener('mouseleave', startTimer);
-    });
-}
-
-// Project Filtering System
-function setupProjectFilters() {
-    const filterButtons = document.querySelectorAll('.category-btn');
-    const projectContainer = document.querySelector('.projects-grid');
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Update active button
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
             
-            // Filter projects
-            const category = button.dataset.category;
-            const projects = document.querySelectorAll('.project-card');
+            // Auto slide change every 5 seconds
+            function startInterval() {
+                slideInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slideCount;
+                    updateSlider();
+                }, 5000);
+            }
             
-            projects.forEach(project => {
-                if (category === 'all' || project.dataset.category === category) {
-                    project.style.display = 'block';
-                } else {
-                    project.style.display = 'none';
-                }
+            function resetInterval() {
+                clearInterval(slideInterval);
+                startInterval();
+            }
+            
+            // Start the initial interval
+            startInterval();
+            
+            // Pause on hover
+            slider.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+            
+            slider.addEventListener('mouseleave', () => {
+                startInterval();
             });
         });
-    });
-}
-
-// Image Modal for Project Galleries
-function setupImageModal() {
-    const modal = document.createElement('div');
-    modal.className = 'image-modal';
-    modal.style.cssText = `
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.9);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    `;
-    
-    const modalImg = document.createElement('img');
-    modalImg.style.maxWidth = '90%';
-    modalImg.style.maxHeight = '90%';
-    
-    const closeBtn = document.createElement('span');
-    closeBtn.innerHTML = '&times;';
-    closeBtn.style.cssText = `
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        color: white;
-        font-size: 35px;
-        font-weight: bold;
-        cursor: pointer;
-    `;
-    
-    modal.appendChild(modalImg);
-    modal.appendChild(closeBtn);
-    document.body.appendChild(modal);
-    
-    // Handle clicks on gallery images
-    document.querySelectorAll('.project-gallery img').forEach(img => {
-        img.addEventListener('click', () => {
-            modalImg.src = img.src;
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+        
+        // Project category filtering
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const category = this.getAttribute('data-category');
+                
+                // Filter projects
+                projectCards.forEach(card => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+        
+        // Add initial animation to project cards
+        projectCards.forEach((card, index) => {
+            card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
         });
     });
-    
-    // Close modal
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    });
-    
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    });
-}
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initProjectSliders();
-    setupProjectFilters();
-    
-    // Only initialize modal if on project detail page
-    if (document.querySelector('.project-gallery')) {
-        setupImageModal();
-    }
-});
+</script>
